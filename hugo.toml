@@ -1,4 +1,4 @@
-baseURL = 'https://blog.krastev.dev/'
+baseURL = 'https://krastev.dev/blog/'
 languageCode = 'bg'
 defaultContentLanguage = 'bg'
 title = 'Блог · Матей Кръстев'

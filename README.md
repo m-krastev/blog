@@ -1,4 +1,4 @@
-# blog.krastev.dev
+# krastev.dev/blog
 
 Проповеди и бележки – Hugo сайт, публикуван чрез GitHub Pages при всяко качване в `main`.
 
