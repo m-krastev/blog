@@ -1,0 +1,32 @@
+{{- $pages := where site.RegularPages "Section" "posts" -}}
+{{- if not .IsHome }}{{ $pages = .RegularPages }}{{ end -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+  <link>{{ .Permalink }}</link>
+  <description>{{ site.Params.description }}</description>
+  <language>{{ site.LanguageCode }}</language>
+  <itunes:author>{{ site.Params.author }}</itunes:author>
+  <itunes:explicit>false</itunes:explicit>
+  {{- with $pages }}<lastBuildDate>{{ (index . 0).Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
+  {{- with .OutputFormats.Get "RSS" }}
+  {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+  {{- end }}
+  {{- range $pages }}
+  <item>
+    <title>{{ .Title }}{{ with .Params.passage }} ({{ . }}){{ end }}</title>
+    <link>{{ .Permalink }}</link>
+    <guid isPermaLink="true">{{ .Permalink }}</guid>
+    <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+    <description>{{ or .Description .Summary | plainify | html }}</description>
+    <content:encoded>{{ printf "<![CDATA[%s]]>" .Content | safeHTML }}</content:encoded>
+    {{- $p := . }}
+    {{- with .Params.audio }}{{ with $p.Resources.Get . }}
+    <enclosure url="{{ .Permalink }}" length="{{ len .Content }}" type="audio/mp4"/>
+    {{- end }}{{ end }}
+    {{- with .Params.duration }}<itunes:duration>{{ . }}</itunes:duration>{{ end }}
+  </item>
+  {{- end }}
+</channel>
+</rss>

@@ -1,0 +1,8 @@
+{{ $p := .Paginator }}
+{{ if gt $p.TotalPages 1 }}
+<nav class="pager">
+  {{ with $p.Prev }}<a href="{{ .URL }}">← По-нови</a>{{ end }}
+  <span>{{ $p.PageNumber }} / {{ $p.TotalPages }}</span>
+  {{ with $p.Next }}<a href="{{ .URL }}">По-стари →</a>{{ end }}
+</nav>
+{{ end }}

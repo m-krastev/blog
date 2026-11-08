@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="wrap">
+  <header class="page-head"><h1>{{ .Title }}</h1></header>
+  {{ range (where site.RegularPages "Section" "posts").GroupByDate "2006" }}
+  <h2 class="year">{{ .Key }}</h2>
+  <ul class="posts">
+    {{ range .Pages }}<li><a class="post-title" href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "post-meta.html" . }}</li>{{ end }}
+  </ul>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,30 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- $title := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) }}
+{{- $desc := or .Description .Summary site.Params.description | plainify | strings.TrimSpace }}
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc | truncate 200 }}">
+<meta name="author" content="{{ site.Params.author }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}">
+{{- else }}
+<link rel="alternate" type="application/rss+xml" href="{{ "feed.xml" | absURL }}" title="{{ site.Title }}">
+{{- end }}
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ .Title | default site.Title }}">
+<meta property="og:description" content="{{ $desc | truncate 200 }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:locale" content="bg_BG">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+{{- if .IsPage }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02" }}">
+{{- with .Params.audio }}{{ with $.Resources.Get . }}<meta property="og:audio" content="{{ .Permalink }}">{{ end }}{{ end }}
+{{- end }}
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%238a5a2b'/%3E%3Cpath d='M18 46V20l14 10 14-10v26' fill='none' stroke='%23fbf8f3' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap&subset=cyrillic" rel="stylesheet">
+{{- $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">

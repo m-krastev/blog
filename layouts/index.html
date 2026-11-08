@@ -1,0 +1,20 @@
+{{ define "main" }}
+<div class="wrap">
+  <header class="page-head">
+    <h1>Блог</h1>
+    <p class="lede">{{ site.Params.description }} Абонирайте се чрез <a href="{{ "feed.xml" | absURL }}">RSS</a> – работи в четци на новини и в повечето приложения за подкасти.</p>
+  </header>
+  {{ $pages := where site.RegularPages "Section" "posts" }}
+  {{ $paginator := .Paginate $pages }}
+  <ul class="posts">
+  {{ range $paginator.Pages }}
+    <li>
+      <a class="post-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ partial "post-meta.html" . }}
+      <p class="excerpt">{{ or .Description .Summary | plainify }}</p>
+    </li>
+  {{ end }}
+  </ul>
+  {{ partial "pagination.html" . }}
+</div>
+{{ end }}

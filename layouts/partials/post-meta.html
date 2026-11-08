@@ -1,0 +1,5 @@
+<span class="meta">
+  {{- with .Params.kind }}{{ . }} · {{ end }}{{ with .Params.passage }}{{ . }} · {{ end -}}
+  {{ partial "date-bg.html" .Date }}
+  {{- with .Params.duration }} · {{ . }} мин. запис{{ end }}
+</span>

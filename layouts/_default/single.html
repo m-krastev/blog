@@ -1,0 +1,30 @@
+{{ define "main" }}
+<article>
+  <header class="post-head"><div class="wrap">
+    <div class="kicker">{{ with .Params.kind }}{{ . }}{{ end }}{{ with .Params.passage }} · {{ . }}{{ end }}</div>
+    <h1>{{ .Title }}</h1>
+    <div class="kicker">{{ partial "date-bg.html" .Date }} · {{ .ReadingTime }} мин. четене</div>
+    {{ with .Params.thesis }}<p class="lede">{{ . }}</p>{{ end }}
+  </div></header>
+  {{ with .Params.audio }}{{ with $.Resources.Get . }}
+  <div class="player"><div class="wrap">
+    <audio controls preload="metadata" src="{{ .RelPermalink }}">Браузърът ви не поддържа аудио.</audio>
+    <a href="{{ .RelPermalink }}" download>Изтегли</a>
+  </div></div>
+  {{ end }}{{ end }}
+  <div class="wrap">
+    {{ with .Params.audio }}<p class="note">Записът е от проповедта на живо. Текстът по-долу е ръкописът, така че изговореното може да се различава от него.</p>{{ end }}
+    {{ if and (ne .Params.toc false) (gt (len .TableOfContents) 40) }}
+    <details class="toc"><summary>Съдържание</summary>{{ .TableOfContents }}</details>
+    {{ end }}
+    <div class="content">{{ .Content }}</div>
+    {{ with .GetTerms "tags" }}
+    <p class="tags">{{ range . }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a> {{ end }}</p>
+    {{ end }}
+    <nav class="post-nav">
+      {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}
+      {{ with .NextInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}
+    </nav>
+  </div>
+</article>
+{{ end }}

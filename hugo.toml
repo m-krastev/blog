@@ -1,0 +1,56 @@
+baseURL = 'https://blog.krastev.dev/'
+languageCode = 'bg'
+defaultContentLanguage = 'bg'
+title = 'Блог · Матей Кръстев'
+enableRobotsTXT = true
+summaryLength = 40
+
+[params]
+  author = 'Матей Кръстев'
+  description = 'Проповеди и бележки – запис и пълен текст.'
+  mainSite = 'https://krastev.dev'
+
+[pagination]
+  pagerSize = 10
+
+[permalinks]
+  posts = '/:slug/'
+
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.goldmark.parser.attribute]
+    block = true
+  [markup.goldmark.extensions.typographer]
+    disable = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[outputFormats.RSS]
+  baseName = 'feed'
+
+[services.rss]
+  limit = -1
+
+[menus]
+  [[menus.main]]
+    name = 'Публикации'
+    pageRef = '/'
+    weight = 10
+  [[menus.main]]
+    name = 'Архив'
+    pageRef = '/archives'
+    weight = 20
+  [[menus.main]]
+    name = 'Етикети'
+    pageRef = '/tags'
+    weight = 30
+  [[menus.main]]
+    name = 'RSS'
+    url = '/feed.xml'
+    weight = 40
